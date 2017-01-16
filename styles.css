@@ -1,0 +1,76 @@
+  #container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background-color: blue;
+    margin: 10px;
+  }
+
+  #drag-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  #square {
+    background-color: red;
+    position: relative;
+    cursor:move;
+  }
+  
+  .resize-vertical {
+    width: 100%;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    background-color: green;
+    cursor: ns-resize;
+  }
+  
+.resize-horizontal {
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    background-color: white;
+    cursor: ew-resize;
+    top: 0;
+  }
+  
+.resize-diagonal {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  background-color: black;
+}
+
+.resize-diagonal.top.left {
+  cursor: nw-resize;
+}
+
+.resize-diagonal.top.right {
+  cursor: ne-resize;
+}
+
+.resize-diagonal.bottom.right {
+  cursor: se-resize;
+}
+
+.resize-diagonal.bottom.left {
+  cursor: sw-resize;
+}
+  
+  .left {
+    left: 0;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  .top {
+    top: 0;
+  }
+  
+  .bottom {
+    bottom: 0;
+  }
