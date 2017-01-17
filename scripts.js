@@ -140,3 +140,7 @@ testRactive.off("activateResizeRight").on("activateResizeRight", function(event)
 testRactive.off("activateResizeTopLeft").on("activateResizeTopLeft", function(event) {
   testRactive.set("square.resizeTopLeft", true);
 });
+
+testRactive.off("mouseCancel").on("mouseCancel", function(event) {
+  return false;
+});
