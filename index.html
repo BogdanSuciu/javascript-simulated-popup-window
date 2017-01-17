@@ -12,14 +12,14 @@
   <script  id="template" type='text/ractive'>
     <div id="drag-container" on-mousemove="getMousePosition" on-mouseup="dropSquare" on-mouseleave="dropSquare">
       <div id="square" on-mousedown="pickup" style="{{parseStyles(square)}}" >
-				<div class="resize-vertical top" on-mousedown="activateResizeTop" on-mousemove="mouseCancel"></div>
-        <div class="resize-vertical bottom" on-mousedown="activateResizeBottom" on-mousemove="mouseCancel"></div>
-				<div class="resize-horizontal left" on-mousedown="activateResizeLeft" on-mousemove="mouseCancel"></div>
- 				<div class="resize-horizontal right" on-mousedown="activateResizeRight" on-mousemove="mouseCancel"></div>
-        <div class="resize-diagonal top left" on-mousedown="activateResizeTopLeft" on-mousemove="mouseCancel"></div>
-        <div class="resize-diagonal top right" on-mousedown="activateResizeTopRight" on-mousemove="mouseCancel"></div>
-        <div class="resize-diagonal bottom right" on-mousedown="activateResizeBottomRight" on-mousemove="mouseCancel"></div>
-        <div class="resize-diagonal bottom left" on-mousedown="activateResizeBottomLeft" on-mousemove="mouseCancel"></div>
+        <div class="resize-vertical top" on-mousedown="@this.fire('activateResize',event,'top')" on-mousemove="mouseCancel"></div>
+        <div class="resize-vertical bottom" on-mousedown="@this.fire('activateResize',event,'bottom')" on-mousemove="mouseCancel"></div>
+				<div class="resize-horizontal left" on-mousedown="@this.fire('activateResize',event,'left')" on-mousemove="mouseCancel"></div>
+ 				<div class="resize-horizontal right" on-mousedown="@this.fire('activateResize',event,'right')" on-mousemove="mouseCancel"></div>
+        <div class="resize-diagonal top left" on-mousedown="@this.fire('activateResize',event,'top-left')" on-mousemove="mouseCancel"></div>
+        <div class="resize-diagonal top right" on-mousedown="@this.fire('activateResize',event,'top-right')" on-mousemove="mouseCancel"></div>
+        <div class="resize-diagonal bottom right" on-mousedown="@this.fire('activateResize',event,'bottom-right')" on-mousemove="mouseCancel"></div>
+        <div class="resize-diagonal bottom left" on-mousedown="@this.fire('activateResize',event,'bottom-left')" on-mousemove="mouseCancel"></div>
       </div>
     </div>
   </script>

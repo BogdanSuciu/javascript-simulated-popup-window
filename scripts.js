@@ -6,9 +6,9 @@ var testRactive = new Ractive({
       left: "0px",
       top: "0px",
       squareGrabbed: false,
-      resizeTop: false,
       width: "50px",
-      height: "50px"
+      height: "50px",
+      resize: false
     },
     parseStyles: function(square) {
       var parsedStyles = [];
@@ -30,7 +30,6 @@ testRactive.off("pickup").on("pickup", function(event) {
 
 testRactive.off("getMousePosition").on("getMousePosition", function(event) {
   if (testRactive.get("square.squareGrabbed")) {
-    console.log(event);
     var draggedObject = testRactive.find("#square");
     if (draggedObject) {
       var old_mouse_x = testRactive.get("square.mouse_x");
@@ -49,62 +48,86 @@ testRactive.off("getMousePosition").on("getMousePosition", function(event) {
       testRactive.set("square.mouse_y", new_mouse_y);
 
       // when top resize is active
-      if (testRactive.get("square.resizeTop")) {
-
-        testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (new_mouse_y - old_mouse_y) + "px");
-
-        if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
-          testRactive.set("square.top", new_object_y + "px");
-        }
-
-      } else if (testRactive.get("square.resizeBottom")) {
-
-        testRactive.set("square.height", parseFloat(testRactive.get("square.height")) + (new_mouse_y - old_mouse_y) + "px");
-
-        if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
-          testRactive.set("square.top", (new_object_y - (new_mouse_y - old_mouse_y)) + "px");
-        }
-
-      } else if (testRactive.get("square.resizeLeft")) {
-
-        testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (new_mouse_x - old_mouse_x) + "px");
-
-        if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
-          testRactive.set("square.left", new_object_x + "px");
-        }
-
-      } else if (testRactive.get("square.resizeRight")) {
-
-        testRactive.set("square.width", parseFloat(testRactive.get("square.width")) + (new_mouse_x - old_mouse_x) + "px");
-
-        if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
-          testRactive.set("square.left", (new_object_x - (new_mouse_x - old_mouse_x)) + "px");
-        }
-
-      } else if (testRactive.get("square.resizeTopLeft")) {
-
-        testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (new_mouse_x - old_mouse_x) + "px");
+      var resizeTarget = testRactive.get("square.resize");
+      
+      switch(resizeTarget) {
         
-        testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (new_mouse_y - old_mouse_y) + "px");
-
-        if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
-          testRactive.set("square.left", new_object_x + "px");
-        }
+        case "top":
         
-        if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
-          testRactive.set("square.top", new_object_y + "px");
-        }
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (new_mouse_y - old_mouse_y) + "px");
 
-      } else {
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", new_object_y + "px");
+          }
+          
+          break;
+          
+        case "bottom":
+        
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) + (new_mouse_y - old_mouse_y) + "px");
 
-        if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
-          testRactive.set("square.left", new_object_x + "px");
-        }
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", (new_object_y - (new_mouse_y - old_mouse_y)) + "px");
+          }
+        
+          break;
+        
+        case "left":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (new_mouse_x - old_mouse_x) + "px");
 
-        if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
-          testRactive.set("square.top", new_object_y + "px");
-        }
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", new_object_x + "px");
+          }
+        
+          break;
+          
+        case "right":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) + (new_mouse_x - old_mouse_x) + "px");
 
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", (new_object_x - (new_mouse_x - old_mouse_x)) + "px");
+          }
+        
+          break;
+          
+        case "top-left":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (new_mouse_x - old_mouse_x) + "px");
+          
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (new_mouse_y - old_mouse_y) + "px");
+
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", new_object_x + "px");
+          }
+          
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", new_object_y + "px");
+          }
+        
+          break;
+          
+        case "top-right":
+          break;
+          
+        case "bottom-right":
+          break;
+          
+        case "bottom-left":
+          break;
+          
+        default:
+        
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", new_object_x + "px");
+          }
+
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", new_object_y + "px");
+          }
+        
+          break;
       }
 
     }
@@ -113,32 +136,12 @@ testRactive.off("getMousePosition").on("getMousePosition", function(event) {
 
 testRactive.off("dropSquare").on("dropSquare", function(event) {
   testRactive.set("square.squareGrabbed", false);
-  
-  testRactive.set("square.resizeTop", false);
-  testRactive.set("square.resizeBottom", false);
-  testRactive.set("square.resizeLeft", false);
-  testRactive.set("square.resizeRight", false);
-  
-  testRactive.set("square.resizeTopLeft", false);
+  testRactive.set("square.resize", false);
   
 });
 
-testRactive.off("activateResizeTop").on("activateResizeTop", function(event) {
-  testRactive.set("square.resizeTop", true);
-});
-testRactive.off("activateResizeBottom").on("activateResizeBottom", function(event) {
-  testRactive.set("square.resizeBottom", true);
-});
-testRactive.off("activateResizeLeft").on("activateResizeLeft", function(event) {
-  testRactive.set("square.resizeLeft", true);
-});
-
-testRactive.off("activateResizeRight").on("activateResizeRight", function(event) {
-  testRactive.set("square.resizeRight", true);
-});
-
-testRactive.off("activateResizeTopLeft").on("activateResizeTopLeft", function(event) {
-  testRactive.set("square.resizeTopLeft", true);
+testRactive.off("activateResize").on("activateResize", function(event, target) {
+  testRactive.set("square.resize", target);
 });
 
 testRactive.off("mouseCancel").on("mouseCancel", function(event) {
