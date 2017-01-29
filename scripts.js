@@ -109,12 +109,51 @@ testRactive.off("getMousePosition").on("getMousePosition", function(event) {
           break;
           
         case "top-right":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (old_mouse_x - new_mouse_x) + "px");
+          
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) + (old_mouse_y - new_mouse_y) + "px");
+
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", object_x + "px");
+          }
+          
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", new_object_y + "px");
+          }
+          
           break;
           
         case "bottom-right":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (old_mouse_x - new_mouse_x) + "px");
+          
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (old_mouse_y - new_mouse_y) + "px");
+
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", object_x + "px");
+          }
+          
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", object_y + "px");
+          }
+        
           break;
           
         case "bottom-left":
+        
+          testRactive.set("square.width", parseFloat(testRactive.get("square.width")) - (new_mouse_x - old_mouse_x) + "px");
+          
+          testRactive.set("square.height", parseFloat(testRactive.get("square.height")) - (old_mouse_y - new_mouse_y) + "px");
+
+          if (new_object_x > 0 && (new_object_x + draggedObject.clientWidth) <= event.node.clientWidth) {
+            testRactive.set("square.left", new_object_x + "px");
+          }
+          
+          if (new_object_y > 0 && (new_object_y + draggedObject.clientHeight) <= event.node.clientHeight) {
+            testRactive.set("square.top", object_y + "px");
+          }
+        
           break;
           
         default:
